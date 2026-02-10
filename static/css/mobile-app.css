@@ -1,0 +1,794 @@
+/**
+ * S-ACM Mobile App Experience v3.1
+ * Native-Feel Mobile UI Layer
+ * 
+ * This file ONLY contains mobile-specific styles.
+ * No variable redefinitions - uses tokens from style.css.
+ * Clean separation: mobile (<992px) vs desktop (>=992px).
+ *
+ * Architecture:
+ *   1. Global Mobile Reset (app-like viewport)
+ *   2. Mobile Header (compact top navbar)
+ *   3. Page Content (scrollable area)
+ *   4. Compact Cards & Stat Cards
+ *   5. Compact Typography & Touch Elements
+ *   6. Bottom Navigation Bar
+ *   7. Mobile Drawer (More Menu)
+ *   8. Mobile Utilities & Animations
+ */
+
+/* ==========================================================
+   MOBILE-ONLY STYLES (max-width: 991.98px)
+   ========================================================== */
+@media (max-width: 991.98px) {
+
+    /* =============================================
+       1. GLOBAL MOBILE RESET
+       ============================================= */
+    html {
+        height: 100%;
+        height: 100dvh;
+    }
+
+    body {
+        height: 100%;
+        height: 100dvh;
+        overscroll-behavior: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Prevent iOS auto-zoom on input focus (16px minimum) */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    input[type="date"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* =============================================
+       2. MAIN LAYOUT - App-Like Viewport
+       ============================================= */
+    .main-wrapper {
+        margin-right: 0 !important;
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /* =============================================
+       3. MOBILE HEADER (Compact)
+       ============================================= */
+    .top-navbar {
+        height: 52px !important;
+        padding: 0 12px !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-shrink: 0;
+    }
+
+    .top-navbar .page-title {
+        font-size: 0.92rem !important;
+        max-width: 200px;
+    }
+
+    .top-navbar .nav-actions {
+        gap: 4px !important;
+    }
+
+    .top-navbar .btn-icon {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        font-size: 0.9rem;
+    }
+
+    .top-navbar .avatar-circle,
+    .top-navbar .avatar-sm {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.7rem !important;
+    }
+
+    /* Hide username on mobile header - avatar only */
+    .top-navbar .d-none.d-md-inline {
+        display: none !important;
+    }
+
+    .top-navbar .bi-chevron-down {
+        display: none !important;
+    }
+
+    /* =============================================
+       4. PAGE CONTENT (Scrollable Area)
+       ============================================= */
+    .page-content {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-y: contain;
+        -webkit-overflow-scrolling: touch;
+        padding: 12px !important;
+        padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 16px) !important;
+        touch-action: pan-y;
+    }
+
+    /* =============================================
+       5. COMPACT GRID & CARDS
+       ============================================= */
+
+    /* Compact grid gaps */
+    .row {
+        --bs-gutter-x: 8px;
+        --bs-gutter-y: 8px;
+    }
+
+    .row.g-3, .row.g-4, .row.gx-3, .row.gx-4,
+    .row.gy-3, .row.gy-4 {
+        --bs-gutter-x: 8px;
+        --bs-gutter-y: 8px;
+    }
+
+    /* Compact cards */
+    .card {
+        border-radius: var(--radius) !important;
+        box-shadow: var(--shadow-sm) !important;
+        border: 1px solid var(--border-color) !important;
+        margin-bottom: 8px !important;
+    }
+
+    .card:hover {
+        transform: none !important;
+        box-shadow: var(--shadow-sm) !important;
+    }
+
+    .card .card-body {
+        padding: 12px !important;
+    }
+
+    .card .card-header {
+        padding: 10px 12px !important;
+        font-size: 0.85rem !important;
+    }
+
+    .card .card-footer {
+        padding: 8px 12px !important;
+    }
+
+    /* Compact Stat Cards */
+    .stat-card {
+        padding: 12px !important;
+        border-radius: var(--radius) !important;
+    }
+
+    .stat-card:hover {
+        transform: none !important;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.35rem !important;
+        font-weight: 800;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.65rem !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .stat-card .stat-icon {
+        font-size: 1.4rem !important;
+    }
+
+    .stat-card::before {
+        width: 50px;
+        height: 50px;
+        top: -15px;
+        left: -15px;
+    }
+
+    /* =============================================
+       6. COMPACT TYPOGRAPHY
+       ============================================= */
+    h1 { font-size: 1.25rem !important; }
+    h2 { font-size: 1.1rem !important; }
+    h3 { font-size: 1rem !important; }
+    h4 { font-size: 0.92rem !important; }
+    h5 { font-size: 0.85rem !important; }
+    h6 { font-size: 0.8rem !important; }
+
+    /* =============================================
+       7. TOUCH-FRIENDLY ELEMENTS (44px min target)
+       ============================================= */
+
+    /* Buttons */
+    .btn {
+        min-height: 44px;
+        padding: 10px 16px !important;
+        font-size: 0.85rem !important;
+        border-radius: var(--radius-sm) !important;
+    }
+
+    .btn:active {
+        transform: scale(0.96);
+    }
+
+    .btn-sm {
+        min-height: 36px !important;
+        padding: 6px 12px !important;
+        font-size: 0.78rem !important;
+    }
+
+    /* Forms */
+    .form-control,
+    .form-select {
+        min-height: 44px !important;
+        padding: 10px 14px !important;
+        border-radius: var(--radius-sm) !important;
+    }
+
+    .form-label {
+        font-size: 0.85rem !important;
+        font-weight: 600;
+        margin-bottom: 4px !important;
+    }
+
+    /* =============================================
+       8. COMPACT COMPONENTS
+       ============================================= */
+
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -12px;
+        padding: 0 12px;
+    }
+
+    .table {
+        font-size: 0.78rem !important;
+        white-space: nowrap;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px 10px !important;
+    }
+
+    /* Badges */
+    .badge {
+        font-size: 0.65rem !important;
+        padding: 3px 7px !important;
+        border-radius: var(--radius-full) !important;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 10px 14px !important;
+        font-size: 0.85rem !important;
+        border-radius: var(--radius) !important;
+        margin-bottom: 8px !important;
+    }
+
+    /* Toast positioning */
+    .toast-container {
+        top: 56px !important;
+        left: 12px !important;
+        right: 12px !important;
+        max-width: none !important;
+    }
+
+    .toast-container .alert {
+        min-width: unset !important;
+        width: 100%;
+    }
+
+    /* Dropdown */
+    .dropdown-menu {
+        border-radius: var(--radius) !important;
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .dropdown-item {
+        padding: 10px 14px !important;
+        font-size: 0.85rem !important;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Breadcrumb compact & scrollable */
+    .breadcrumb {
+        font-size: 0.75rem !important;
+        margin-bottom: 8px !important;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+    .breadcrumb::-webkit-scrollbar { display: none; }
+
+    /* Modals fullscreen */
+    .modal-dialog {
+        margin: 0 !important;
+        max-width: 100% !important;
+        min-height: 100% !important;
+    }
+
+    .modal-content {
+        border-radius: 0 !important;
+        min-height: 100dvh !important;
+        border: none !important;
+    }
+
+    /* Progress thinner */
+    .progress {
+        height: 6px !important;
+        border-radius: 3px !important;
+    }
+
+    /* Pagination touch targets */
+    .pagination .page-link {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm) !important;
+    }
+
+    /* Course cards compact */
+    .course-card .course-name {
+        font-size: 0.88rem !important;
+    }
+
+    .course-card .course-code,
+    .course-card .course-meta {
+        font-size: 0.7rem !important;
+    }
+
+    /* File items compact */
+    .file-item {
+        padding: 8px 12px !important;
+    }
+
+    .file-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1.1rem !important;
+        margin-left: 8px !important;
+    }
+
+    .file-title {
+        font-size: 0.85rem !important;
+    }
+
+    .file-meta {
+        font-size: 0.7rem !important;
+    }
+
+    /* Empty state compact */
+    .empty-state {
+        padding: 30px 16px !important;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem !important;
+    }
+
+    /* List items compact */
+    .list-group-item {
+        padding: 10px 12px !important;
+    }
+
+    /* Nav tabs horizontal scroll */
+    .nav-tabs,
+    .nav-pills {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        scrollbar-width: none;
+        gap: 4px;
+    }
+
+    .nav-tabs::-webkit-scrollbar,
+    .nav-pills::-webkit-scrollbar { display: none; }
+
+    .nav-tabs .nav-link,
+    .nav-pills .nav-link {
+        white-space: nowrap;
+        font-size: 0.78rem !important;
+        padding: 8px 14px !important;
+        border-radius: var(--radius-full) !important;
+    }
+
+    /* AI Chat mobile */
+    .ai-chat-container {
+        max-height: calc(100dvh - 52px - var(--bottom-nav-height) - 120px) !important;
+    }
+
+    .chat-message {
+        padding: 10px 12px !important;
+        font-size: 0.85rem !important;
+    }
+
+    .chat-message.user { margin-right: 0 !important; margin-left: 24px !important; }
+    .chat-message.ai   { margin-left: 0 !important; margin-right: 24px !important; }
+
+    /* Auth pages mobile */
+    .auth-container { padding: 16px !important; }
+    .auth-card {
+        padding: 20px !important;
+        border-radius: var(--radius-lg) !important;
+        max-width: 100% !important;
+    }
+
+    .auth-logo i { font-size: 2.5rem !important; }
+    .auth-logo h1 { font-size: 1.2rem !important; }
+
+
+    /* =============================================
+       BOTTOM NAVIGATION BAR
+       ============================================= */
+    .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1050;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border-color);
+        height: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+        padding-bottom: var(--safe-area-bottom);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .bottom-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        height: 100%;
+        text-decoration: none;
+        color: var(--text-muted);
+        transition: color var(--transition-fast);
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
+        padding: 6px 2px;
+        min-height: 44px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-family: var(--font-family);
+    }
+
+    .bottom-nav-item:active {
+        background: var(--primary-10);
+        border-radius: var(--radius-sm);
+    }
+
+    .bottom-nav-item.active {
+        color: var(--primary);
+    }
+
+    /* Active indicator dot */
+    .bottom-nav-item.active::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--primary);
+    }
+
+    .bottom-nav-item i {
+        font-size: 1.25rem;
+        line-height: 1;
+        transition: transform var(--transition-fast);
+    }
+
+    .bottom-nav-item.active i {
+        transform: scale(1.08);
+    }
+
+    .bottom-nav-item span {
+        font-size: 0.58rem;
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    .bottom-nav-item.active span {
+        font-weight: 700;
+    }
+
+    /* Bottom nav notification badge */
+    .bottom-nav-badge {
+        position: absolute;
+        top: 4px;
+        right: 50%;
+        margin-right: -20px;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 4px;
+        background: var(--danger);
+        color: #fff;
+        font-size: 0.5rem;
+        font-weight: 700;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        border: 2px solid #fff;
+    }
+
+
+    /* =============================================
+       MOBILE DRAWER (More Menu)
+       ============================================= */
+    .mobile-drawer-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1060;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-drawer-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-drawer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1070;
+        background: var(--bg-card);
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        max-height: 65dvh;
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+        overflow: hidden;
+        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .mobile-drawer.show {
+        transform: translateY(0);
+    }
+
+    .drawer-handle {
+        display: flex;
+        justify-content: center;
+        padding: 12px 0 6px;
+    }
+
+    .drawer-handle::after {
+        content: '';
+        width: 36px;
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+    }
+
+    .drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px 12px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .drawer-header h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .drawer-close-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: none;
+        background: var(--border-light);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background var(--transition-fast);
+    }
+
+    .drawer-close-btn:hover {
+        background: var(--border-color);
+    }
+
+    .drawer-body {
+        padding: 16px;
+        overflow-y: auto;
+        max-height: calc(65dvh - 70px);
+    }
+
+    .drawer-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .drawer-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 16px 8px;
+        border-radius: var(--radius-lg);
+        text-decoration: none;
+        color: var(--text-secondary);
+        background: var(--border-light);
+        transition: all var(--transition-fast);
+        min-height: 44px;
+    }
+
+    .drawer-item:active {
+        transform: scale(0.94);
+    }
+
+    .drawer-item.active {
+        background: var(--primary-10);
+        color: var(--primary);
+    }
+
+    .drawer-item-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: var(--radius);
+        background: var(--bg-card);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        box-shadow: var(--shadow-xs);
+    }
+
+    .drawer-item.active .drawer-item-icon {
+        background: var(--primary-10);
+        color: var(--primary);
+    }
+
+    .drawer-item span {
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    .drawer-item-danger {
+        color: var(--danger) !important;
+    }
+
+    .drawer-item-danger .drawer-item-icon {
+        color: var(--danger);
+    }
+
+    /* Sidebar z-index override for mobile (when opened via hamburger) */
+    .sidebar-overlay {
+        z-index: 1080 !important;
+    }
+
+    .sidebar {
+        z-index: 1090 !important;
+    }
+
+
+    /* =============================================
+       MOBILE UTILITIES
+       ============================================= */
+
+    /* Hide scrollbar */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+    /* Horizontal scroll container */
+    .mobile-scroll-x {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+        scroll-snap-type: x mandatory;
+    }
+
+    .mobile-scroll-x::-webkit-scrollbar { display: none; }
+    .mobile-scroll-x > * { flex-shrink: 0; scroll-snap-align: start; }
+
+    /* Line clamp utilities */
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Animations */
+    @keyframes mobileSlideUp {
+        from { transform: translateY(16px); opacity: 0; }
+        to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    @keyframes mobileFadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    .animate-slide-up { animation: mobileSlideUp 0.3s ease; }
+    .animate-fade-in  { animation: mobileFadeIn 0.2s ease; }
+
+} /* === End mobile media query === */
+
+
+/* ==========================================================
+   DESKTOP: Hide Mobile Elements
+   ========================================================== */
+@media (min-width: 992px) {
+    .mobile-bottom-nav,
+    .mobile-drawer,
+    .mobile-drawer-overlay,
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* ==========================================================
+   SHARED UTILITIES (All screens)
+   ========================================================== */
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* HTMX loading state */
+.htmx-loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
