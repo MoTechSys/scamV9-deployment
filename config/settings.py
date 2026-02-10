@@ -138,14 +138,35 @@ TIME_ZONE = 'Asia/Riyadh'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Static and Media Storage
+USE_SUPABASE_STORAGE = os.getenv('USE_SUPABASE_STORAGE', 'False').lower() == 'true'
 
-# Media files (User uploads)
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if USE_SUPABASE_STORAGE:
+    # Supabase Storage (S3 Compatible)
+    INSTALLED_APPS += ['storages']
+    AWS_ACCESS_KEY_ID = os.getenv('SUPABASE_STORAGE_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('SUPABASE_STORAGE_SECRET_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.getenv('SUPABASE_STORAGE_BUCKET', 'media')
+    AWS_S3_ENDPOINT_URL = os.getenv('SUPABASE_STORAGE_ENDPOINT')  # https://[PROJECT_ID].supabase.co/storage/v1/s3
+    AWS_S3_REGION_NAME = os.getenv('SUPABASE_STORAGE_REGION', 'us-east-1')
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    
+    # Static files
+    STATIC_URL = 'static/'
+    STATICFILES_DIRS = [BASE_DIR / 'static']
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    
+    # Media files
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/'
+else:
+    # Local Storage
+    STATIC_URL = 'static/'
+    STATICFILES_DIRS = [BASE_DIR / 'static']
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
