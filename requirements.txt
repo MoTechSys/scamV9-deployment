@@ -86,3 +86,4 @@ xlsxwriter==3.2.9
 zopfli==0.4.0
 django-storages==1.14.4
 boto3==1.34.0
+dj-database-url==2.1.0

@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi --log-file -
+web: sh railway_run.sh

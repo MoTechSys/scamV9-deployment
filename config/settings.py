@@ -91,16 +91,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 USE_POSTGRES = os.getenv('USE_POSTGRES', 'False').lower() == 'true'
 
 if USE_POSTGRES:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME', 's_acm_db'),
-            'USER': os.getenv('DB_USER', 'postgres'),
-            'PASSWORD': os.getenv('DB_PASSWORD', ''),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '5432'),
+    # Use DATABASE_URL if available (common in Railway/Heroku), otherwise use individual variables
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=600)
+    if db_from_env:
+        DATABASES = {'default': db_from_env}
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': os.getenv('DB_NAME', 'postgres'),
+                'USER': os.getenv('DB_USER', 'postgres.wfdsowmvdzrblgowlpcg'),
+                'PASSWORD': os.getenv('DB_PASSWORD', 'moain7788moain'),
+                'HOST': os.getenv('DB_HOST', 'aws-1-ap-south-1.pooler.supabase.com'),
+                'PORT': os.getenv('DB_PORT', '6543'),
+            }
         }
-    }
 else:
     # SQLite for development (default)
     DATABASES = {
